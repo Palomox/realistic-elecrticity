@@ -1,0 +1,30 @@
+{
+  "variants": {
+    "facing=down": {
+      "model": "realistic_electricity:block/cable_holder",
+      "x": 180
+    },
+    "facing=east": {
+      "model": "realistic_electricity:block/cable_holder",
+      "x": 90,
+      "y": 90
+    },
+    "facing=north": {
+      "model": "realistic_electricity:block/cable_holder",
+      "x": 90
+    },
+    "facing=south": {
+      "model": "realistic_electricity:block/cable_holder",
+      "x": 90,
+      "y": 180
+    },
+    "facing=up": {
+      "model": "realistic_electricity:block/cable_holder"
+    },
+    "facing=west": {
+      "model": "realistic_electricity:block/cable_holder",
+      "x": 90,
+      "y": 270
+    }
+  }
+}

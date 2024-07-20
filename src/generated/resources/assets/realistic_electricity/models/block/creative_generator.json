@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "realistic_electricity:block/creative_generator"
+  }
+}

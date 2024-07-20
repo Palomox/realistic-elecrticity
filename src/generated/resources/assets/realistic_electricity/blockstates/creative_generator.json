@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "realistic_electricity:block/creative_generator"
+    }
+  }
+}
