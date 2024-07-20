@@ -6,7 +6,6 @@ import java.text.DecimalFormatSymbols;
 import com.github.palomox.realistic_electricity.RealisticElectricity;
 import com.github.palomox.realistic_electricity.capabilities.ElectricityGenerator.CurrentType;
 import com.github.palomox.realistic_electricity.menus.CreativeGeneratorMenu;
-import com.github.palomox.realistic_electricity.menus.screen.widgets.BigButton;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
@@ -73,7 +72,7 @@ public class CreativeGeneratorScreen extends AbstractContainerScreen<CreativeGen
 		this.addRenderableWidget(voltage);
 		this.addRenderableWidget(current);
 		
-		this.addRenderableWidget(BigButton.bigBuilder(Component.translatable(SET_VALUES_BUTTON), (button) -> {
+		this.addRenderableWidget(Button.builder(Component.translatable(SET_VALUES_BUTTON), (button) -> {
 			setValues();
 		})
 				.bounds(this.leftPos+MARGIN+105, this.topPos+29, 60, 37)
