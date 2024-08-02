@@ -4,7 +4,7 @@
   "realistic_electricity.itemGroup": "Realistic Electricity",
   "realistic_electricity.labels.max_power": "Max power",
   "realistic_electricity.screen.creative_generator.button.setvalues": "Set Values",
-  "realistic_electricity.screen.creative_generator.editbox.current": "Current:",
+  "realistic_electricity.screen.creative_generator.editbox.max_power": "Max power:",
   "realistic_electricity.screen.creative_generator.editbox.voltage": "Voltage:",
   "realistic_electricity.screens.creative_generator.title": "Creative Generator"
 }
