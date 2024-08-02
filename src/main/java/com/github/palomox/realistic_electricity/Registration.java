@@ -6,6 +6,7 @@ import com.github.palomox.realistic_electricity.blocks.entities.CreativeGenerato
 import com.github.palomox.realistic_electricity.capabilities.ElectricityGenerator;
 import com.github.palomox.realistic_electricity.menus.CreativeGeneratorMenu;
 import com.github.palomox.realistic_electricity.menus.screen.CreativeGeneratorScreen;
+import com.github.palomox.realistic_electricity.network.MenuSyncPacket;
 import com.github.palomox.realistic_electricity.theoneprobe.TOPCompat;
 
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -22,6 +23,8 @@ import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.common.extensions.IMenuTypeExtension;
+import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
+import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredItem;
@@ -89,6 +92,14 @@ public class Registration {
 	
 	}
 	
+	@SubscribeEvent
+	public static void registerPayload(final RegisterPayloadHandlersEvent event) {
+		final PayloadRegistrar registrar = event.registrar(RealisticElectricity.MODID+"_1");
+		
+		registrar.playBidirectional(MenuSyncPacket.TYPE, MenuSyncPacket.STREAM_CODEC, 
+				MenuSyncPacket::handle);
+	}
+ 	
 	@SubscribeEvent
 	public static void registerScreens(RegisterMenuScreensEvent event) {
 		event.register(CREATIVE_GENERATOR_MENU.get(), CreativeGeneratorScreen::new);
