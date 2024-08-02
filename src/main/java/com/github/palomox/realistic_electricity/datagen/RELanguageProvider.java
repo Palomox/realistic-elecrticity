@@ -22,7 +22,7 @@ public class RELanguageProvider extends LanguageProvider{
 		add(Registration.CABLE_HOLDER_BLOCK.get(), "Cable holder");
 		add(CreativeGeneratorBlock.TITLE_LABEL_KEY, "Creative Generator");
 		add(TOPCompat.MAX_POWER, "Max power");
-		add(CreativeGeneratorScreen.CURRENT_EDIT, "Current:");
+		add(CreativeGeneratorScreen.MAX_POWER_EDIT, "Max power:");
 		add(CreativeGeneratorScreen.VOLTAGE_EDIT, "Voltage:");
 		add(CreativeGeneratorScreen.SET_VALUES_BUTTON, "Set Values");
 	}

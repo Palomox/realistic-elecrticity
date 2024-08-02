@@ -39,9 +39,6 @@ public class ElectricityGenerator implements INBTSerializable<CompoundTag> {
 		this.voltage = voltage;
 	}
 	
-	public void setCurrent(float current) {
-		this.current = current;
-	}
 	
 	public CurrentType getType() {
 		return type;
@@ -66,13 +63,32 @@ public class ElectricityGenerator implements INBTSerializable<CompoundTag> {
 
 
 
-	public static enum CurrentType{
+	public static enum CurrentType {
 		AC,
 		DC;
 	}
 	
 	public float getMaxCurrent() {
-		return this.maxPower/this.voltage;
+		return this.voltage == 0 ? 0 : this.maxPower/this.voltage;
+	}
+	
+	public boolean canGive(float intensity) {
+		return intensity <= getMaxCurrent();
+	}
+	
+	/**
+	 * This method requests a specific current at the current voltage of the network. It is ideally used after a check using
+	 * {@link #getMaxCurrent()}, because it takes into account the current drawing operation is going to succeed. It tries to 
+	 * satisfy the request of the net, either by returning what it was asked to, or the max it can return.
+	 * 
+	 * @param current the current required by the network
+	 * @return the current that the generator could give
+	 */
+	public float requestCurrent(float current) {
+		float toGive = current > getMaxCurrent() ? getMaxCurrent() : current;
+		this.current = toGive;
+		
+		return toGive;
 	}
 
 	@Override
@@ -82,7 +98,7 @@ public class ElectricityGenerator implements INBTSerializable<CompoundTag> {
 		nbt.putFloat("Voltage", voltage);
 		nbt.putFloat("Current", current);
 		nbt.putFloat("PowerMax", maxPower);
-		nbt.putString("Type", type.name());
+		nbt.putInt("Type", type.ordinal());
 	
 		return nbt;
 	}
@@ -90,7 +106,8 @@ public class ElectricityGenerator implements INBTSerializable<CompoundTag> {
 
 	@Override
 	public void deserializeNBT(Provider provider, CompoundTag nbt) {
-		this.type = CurrentType.valueOf(nbt.getString("Type"));
+		System.out.println(nbt.getString("Type"));
+		this.type = CurrentType.values()[nbt.getInt("Type")];
 		this.voltage = nbt.getFloat("Voltage");
 		this.current = nbt.getFloat("Current");
 		this.maxPower = nbt.getFloat("PowerMax");

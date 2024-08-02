@@ -20,7 +20,7 @@ import net.minecraft.world.entity.player.Inventory;
 public class CreativeGeneratorScreen extends AbstractContainerScreen<CreativeGeneratorMenu> {
 
 	public static final String VOLTAGE_EDIT =  RealisticElectricity.prefixLangKey("screen.creative_generator.editbox.voltage");
-	public static final String CURRENT_EDIT = RealisticElectricity.prefixLangKey("screen.creative_generator.editbox.current");
+	public static final String MAX_POWER_EDIT = RealisticElectricity.prefixLangKey("screen.creative_generator.editbox.max_power");
 	public static final String SET_VALUES_BUTTON = RealisticElectricity.prefixLangKey("screen.creative_generator.button.setvalues");
 	private static final int MARGIN = 8; 
 	
@@ -32,7 +32,7 @@ public class CreativeGeneratorScreen extends AbstractContainerScreen<CreativeGen
 	private boolean firstRender = true;
 	
 	private EditBox voltage; 
-	private EditBox current;
+	private EditBox maxPower;
 	private CycleButton<CurrentType> currentType;
 	private CycleButton<Boolean> generating;
 	
@@ -43,10 +43,7 @@ public class CreativeGeneratorScreen extends AbstractContainerScreen<CreativeGen
 		
 		this.titleLabelX = 40;
 		this.titleLabelY = 5;
-		
-		this.inventoryLabelX = Integer.MAX_VALUE;
-		this.inventoryLabelY = Integer.MAX_VALUE;
-		
+				
 		var formatSymbols = DecimalFormatSymbols.getInstance();
 		
 		formatSymbols.setDecimalSeparator('.');
@@ -63,14 +60,14 @@ public class CreativeGeneratorScreen extends AbstractContainerScreen<CreativeGen
 			filter(voltage, content);
 		});
 		
-		current = new EditBox(this.font, this.leftPos+MARGIN, this.topPos+55, 100, 10, Component.translatable(CURRENT_EDIT));
-		current.setValue("" + menu.getCurrent());
-		current.setResponder(content -> {
-			filter(current, content);
+		maxPower = new EditBox(this.font, this.leftPos+MARGIN, this.topPos+55, 100, 10, Component.translatable(MAX_POWER_EDIT));
+		maxPower.setValue("" + menu.getMaxPower());
+		maxPower.setResponder(content -> {
+			filter(maxPower, content);
 		});
 		
 		this.addRenderableWidget(voltage);
-		this.addRenderableWidget(current);
+		this.addRenderableWidget(maxPower);
 		
 		this.addRenderableWidget(Button.builder(Component.translatable(SET_VALUES_BUTTON), (button) -> {
 			setValues();
@@ -113,12 +110,12 @@ public class CreativeGeneratorScreen extends AbstractContainerScreen<CreativeGen
 	
 	private void setGenerating(boolean generating) {
 		menu.setGenerating(generating);
-		//menu.syncToServer();
+		menu.syncToServer();
 	} 
 	
 	private void setCurrentType(CurrentType currentType) {
 		menu.setType(currentType);
-		//menu.syncToServer();
+		menu.syncToServer();
 	}
 	
 	@Override
@@ -128,7 +125,7 @@ public class CreativeGeneratorScreen extends AbstractContainerScreen<CreativeGen
 		if(firstRender) {
 			firstRender = false;
 			voltage.setValue(formatter.format(menu.getVoltage()));
-			current.setValue(formatter.format(menu.getCurrent()));
+			maxPower.setValue(formatter.format(menu.getMaxPower()));
 			currentType.setValue(menu.getCurrentType());
 			generating.setValue(menu.isGenerating());
 			
@@ -155,18 +152,18 @@ public class CreativeGeneratorScreen extends AbstractContainerScreen<CreativeGen
 	
 	@Override
 	protected void renderLabels(GuiGraphics guiGraphics, int mouseX, int mouseY) {
-		super.renderLabels(guiGraphics, mouseX, mouseY);
-		guiGraphics.drawString(this.font, Component.translatable(VOLTAGE_EDIT, menu.getVoltage()), MARGIN, 20, 0x404040);
-		guiGraphics.drawString(this.font, Component.translatable(CURRENT_EDIT, menu.getCurrent()), MARGIN, 45, 0x404040);
+        guiGraphics.drawString(this.font, this.title, this.titleLabelX, this.titleLabelY, 4210752, false);
+		guiGraphics.drawString(this.font, Component.translatable(VOLTAGE_EDIT), MARGIN, 20, 0x404040, false);
+		guiGraphics.drawString(this.font, Component.translatable(MAX_POWER_EDIT), MARGIN, 45, 0x404040, false);
 	}
 		
 	private void setValues() {
 		float voltage = Float.valueOf(this.voltage.getValue());
-		float current = Float.valueOf(this.current.getValue());
-	
+		float maxPower = Float.valueOf(this.maxPower.getValue());
+	 
 		menu.setVoltage(voltage);
-		menu.setCurrent(current);
+		menu.setMaxPower(maxPower);
 		
-		//menu.syncToServer();
+		menu.syncToServer();
 	}
 }
